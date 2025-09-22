@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import veterinarioService from "../services/veterinariosService";
 export default function Register() {
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
@@ -13,22 +13,15 @@ export default function Register() {
       alert("Las contraseñas no coinciden");
       return;
     }
-    // Aquí puedes manejar el registro del usuario
-    console.log({ nombre, email, password, rPassword });
 
     //Crear el usuario en la API
     try {
-      const url = import.meta.env.VITE_API_URL;
-      const { data } = await axios.post(`${url}/api/veterinarios`, {
-        nombre,
-        email,
-        password,
-      });
-      console.log(data);
-      alert("Usuario creado correctamente");
+      const data = await veterinarioService.registrar({ nombre, email, password });
+      alert(data.msg || "Usuario creado correctamente");
+      
     } catch (error) {
       console.error(error.response);
-      alert("Error al crear el usuario");
+      alert(error.response.data.msg || "Error al crear el usuario");
     }
   }
 
@@ -45,7 +38,7 @@ export default function Register() {
             id="name"
             name="name"
             autoComplete="name"
-            className="border border-slate-500 p-2 rounded placeholder:text-slate-500"
+            className="border border-slate-500 p-2 rounded placeholder:text-slate-500 focus:border-indigo-500 focus:outline-indigo-500 focus:outline-1"
             placeholder="Ingresa tu nombre"
             value={nombre}
             onChange={(e) => setNombre(e.target.value)}
@@ -60,7 +53,7 @@ export default function Register() {
             id="email"
             name="email"
             autoComplete="email"
-            className="border border-slate-500 p-2 rounded placeholder:text-slate-500"
+            className="border border-slate-500 p-2 rounded placeholder:text-slate-500 focus:border-indigo-500 focus:outline-indigo-500 focus:outline-1"
             placeholder="Ingresa tu email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -75,7 +68,7 @@ export default function Register() {
             id="password"
             name="password"
             autoComplete="password"
-            className="border border-slate-500 p-2 rounded placeholder:text-slate-500"
+            className="border border-slate-500 p-2 rounded placeholder:text-slate-500 focus:border-indigo-500 focus:outline-indigo-500 focus:outline-1"
             placeholder="Ingresa tu contraseña"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -91,7 +84,7 @@ export default function Register() {
             id="r-password"
             name="r-password"
             autoComplete="r-password"
-            className="border border-slate-500 p-2 rounded placeholder:text-slate-500"
+            className="border border-slate-500 p-2 rounded placeholder:text-slate-500 focus:border-indigo-500 focus:outline-indigo-500 focus:outline-1"
             placeholder="Repite tu contraseña"
             value={rPassword}
             onChange={(e) => setRPassword(e.target.value)}
