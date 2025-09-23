@@ -21,6 +21,13 @@ const veterinarioService = {
         const url = `${API_URL}/api/veterinarios/olvide-password`;
         const response = await axios.post(url, { email });
         return response.data;
+    },
+
+    //Crear nueva contraseña
+    nuevoPassword: async (token, password) => {
+        const url = `${API_URL}/api/veterinarios/olvide-password/${token}`;
+        const response = await axios.post(url, { password });
+        return response.data;
     }
 };
 
