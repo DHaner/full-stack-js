@@ -5,32 +5,29 @@ const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
     const [auth, setAuth] = useState({});
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function getPerfil() {
             const token = localStorage.getItem("token");
             if (!token) {
+                setLoading(false);
                 return;
             }
-            const config = {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`
-                }
-            }
             try {
-                const data = await veterinarioService.getPerfil(config);
-                setAuth(data);
-                console.log(data);
+                const data = await veterinarioService.getPerfil(token);
+                setAuth(data.perfil);
+                console.log("data ", data);
             } catch (error) {
                 console.error(error.response.data.msg);
             }
+            setLoading(false);
         }
         getPerfil();
     }, []);
 
     return (
-        <AuthContext.Provider value={{ auth, setAuth }}>
+        <AuthContext.Provider value={{ auth, setAuth, loading }}>
             {children}
         </AuthContext.Provider>
     )

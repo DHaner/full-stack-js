@@ -4,6 +4,8 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import ConfirmAccount from './pages/ConfirmAccount'
 import NewPassword from './pages/NewPassword'
+import AdminPage from './pages/admin/AdminPage'
+import AdminLayout from './layout/AdminLayout'
 function App() {
 
   return (
@@ -14,6 +16,10 @@ function App() {
           <Route path='register' element={<Register />} />
           <Route path='forgot-password/:token' element={<NewPassword />} />
           <Route path='confirm/:token' element={<ConfirmAccount />} />
+        </Route>
+
+        <Route path='/admin' element={<AdminLayout />}>
+          <Route index element={<AdminPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

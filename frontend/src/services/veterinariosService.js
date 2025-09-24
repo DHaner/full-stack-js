@@ -3,9 +3,15 @@ import { API_URL } from '../const';
 
 const veterinarioService = {
     // Obtener perfil
-    getPerfil: async () => {
+    getPerfil: async (token) => {
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        }
         const url = `${API_URL}/api/veterinarios/perfil`;
-        const response = await axios.get(url);
+        const response = await axios.get(url, config);
         return response.data;
     },
 

@@ -35,10 +35,10 @@ export async function registrar(req, res) {
 }
 
 export async function perfil(req, res) {
-    const {veterinario} = req;
+    const { veterinario } = req;
     res.json({
         msg: 'Perfil veterinario',
-        perfil : veterinario
+        perfil: veterinario
     });
 }
 
@@ -65,31 +65,36 @@ export async function confirmar(req, res) {
 
 export async function login(req, res) {
     const { email, password } = req.body;
-    const usuario = await Veterinario.findOne({ email });
+    try {
+        const usuario = await Veterinario.findOne({ email });
 
-    //Comprobar si el usuario existe
-    if (!usuario) {
-        const error = new Error('El usuario no existe');
-        return res.status(404).json({ msg: error.message });
+        //Comprobar si el usuario existe
+        if (!usuario) {
+            const error = new Error('El usuario no existe');
+            return res.status(404).json({ msg: error.message });
+        }
+
+        //Comprobar si el usuario está confirmado
+        if (!usuario.confirmado) {
+            const error = new Error('Tu cuenta no ha sido confirmada');
+            return res.status(403).json({ msg: error.message });
+        }
+
+        //Comprobar si la contraseña es correcta
+        if (await usuario.comprobarPassword(password)) {
+            //Autenticar
+            const id = usuario.id;
+            res.json({ token: generarJWT(id) });
+        } else {
+            const error = new Error('La contraseña es incorrecta');
+            return res.status(403).json({ msg: error.message });
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ msg: 'Error al iniciar sesión' });
     }
 
-    //Comprobar si el usuario está confirmado
-    if (!usuario.confirmado) {
-        const error = new Error('Tu cuenta no ha sido confirmada');
-        return res.status(403).json({ msg: error.message });
-    }
 
-    //Comprobar si la contraseña es correcta
-    if (await usuario.comprobarPassword(password)) {
-        //Autenticar
-        const id = usuario.id;
-        res.json({ token: generarJWT(id) });
-    } else {
-        const error = new Error('La contraseña es incorrecta');
-        return res.status(403).json({ msg: error.message });
-    }    
-
-    res.json({ msg: 'Login correcto' });
 }
 
 export async function olvidePassword(req, res) {
@@ -138,7 +143,7 @@ export async function nuevoPassword(req, res) {
     const { token } = req.params;
     const { password } = req.body;
     const veterinario = await Veterinario.findOne({ token });
-    
+
     if (!veterinario) {
         const error = new Error('Token no válido');
         return res.status(400).json({ msg: error.message });
