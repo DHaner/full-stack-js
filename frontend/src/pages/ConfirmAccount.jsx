@@ -37,7 +37,10 @@ export default function ConfirmAccount() {
         {loading ?
           <Loading />
           :
-          (cuentaConfirmada ? <IconSuccess className= "size-16" /> : <IconExclamation className= "size-16" />)
+          (cuentaConfirmada ?
+            <IconSuccess className="size-16" />
+            :
+            <IconExclamation className="size-16" />)
         }
 
         {message}

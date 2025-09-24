@@ -66,7 +66,7 @@ export default function ForgotPassword({ onClose }) {
       <div className="flex justify-center mt-5 gap-3  text-indigo-500">
         <button
           className="cursor-pointer"
-          commandfor="password-modal"
+          commandfor="forgot-password-modal"
           command="close">Cerrar</button>
       </div>
     </>
