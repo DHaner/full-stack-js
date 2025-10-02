@@ -26,8 +26,13 @@ export function AuthProvider({ children }) {
         getPerfil();
     }, []);
 
+    function cerrarSesion() {
+        setAuth({});
+        localStorage.removeItem("token");
+    };
+
     return (
-        <AuthContext.Provider value={{ auth, setAuth, loading }}>
+        <AuthContext.Provider value={{ auth, setAuth, loading, cerrarSesion }}>
             {children}
         </AuthContext.Provider>
     )

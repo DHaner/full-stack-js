@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ForgotPassword from "../components/ForgotPassword";
-import useAuth from "../hooks/useAuth";
 import veterinarioService from "../services/veterinariosService";
+import useAuth from "../hooks/useAuth";
 
 export default function Login() {
   const navigate = useNavigate();
+  const { setAuth } = useAuth();
 
   const [forgotPasswordModal, setForgotPasswordModal] = useState(false);
   const [email, setEmail] = useState("");
@@ -26,6 +27,9 @@ export default function Login() {
     try {
       const data = await veterinarioService.login(email, password);
       localStorage.setItem("token", data.token);
+      
+      const perfilData = await veterinarioService.getPerfil(data.token);
+      setAuth(perfilData.perfil);
       navigate("/admin");
     } catch (error) {
       alert(error.response.data.msg || "Error al iniciar sesión");
