@@ -3,6 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import ForgotPassword from "../components/ForgotPassword";
 import veterinarioService from "../services/veterinariosService";
 import useAuth from "../hooks/useAuth";
+import Button from "../components/ui/Button";
+import Input from "../components/ui/Input";
+import Title from "../components/ui/Title";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -27,7 +30,7 @@ export default function Login() {
     try {
       const data = await veterinarioService.login(email, password);
       localStorage.setItem("token", data.token);
-      
+
       const perfilData = await veterinarioService.getPerfil(data.token);
       setAuth(perfilData.perfil);
       navigate("/admin");
@@ -38,39 +41,32 @@ export default function Login() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold text-indigo-500">Iniciar Sesion</h1>
+      <Title>Iniciar Sesión</Title>
 
       <form className="flex flex-col gap-7 mt-5 w-full" onSubmit={handleSubmit}>
+        <Input
+          label="Email:"
+          type="email"
+          name="email"
+          placeholder="Ingresa tu email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          autoComplete="email"
+          required
+        />
 
-        <div className="flex flex-col gap-2 ">
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            className="border border-slate-500 p-2 rounded placeholder:text-slate-500 focus:border-indigo-500 focus:outline-indigo-500 focus:outline-1"
-            placeholder="Ingresa tu email"
-            autoComplete="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="flex flex-col gap-2 ">
-          <label htmlFor="password">Contraseña:</label>
-          <input
+        <div>
+          <Input
+            label="Contraseña:"
             type="password"
-            id="password"
             name="password"
-            className="border border-slate-500 p-2 rounded placeholder:text-slate-500 focus:border-indigo-500 focus:outline-indigo-500 focus:outline-1"
             placeholder="Ingresa tu contraseña"
-            autoComplete="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            autoComplete="password"
             required
           />
-          <div className="flex justify-end text-indigo-500 text-right text-sm">
+          <div className="flex justify-end text-indigo-500 text-right text-sm mt-2">
             <button
               onClick={handleForgotPasswordModal}
               type="button"
@@ -79,15 +75,9 @@ export default function Login() {
               commandfor="forgot-password-modal"
             >Olvide mi contraseña</button>
           </div>
-
         </div>
 
-        <button
-          type="submit"
-          className="bg-indigo-500 text-white p-2 rounded text-lg font-bold cursor-pointer hover:bg-indigo-600"
-        >
-          Enviar
-        </button>
+        <Button type="submit">Enviar</Button>
       </form>
 
       <div className="flex flex-col items-center mt-5 gap-3 text-sm">

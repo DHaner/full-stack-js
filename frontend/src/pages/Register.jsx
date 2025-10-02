@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import veterinarioService from "../services/veterinariosService";
+import Button from "../components/ui/Button";
+import Title from "../components/ui/Title";
+import Input from "../components/ui/Input";
 export default function Register() {
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
@@ -27,78 +30,57 @@ export default function Register() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold text-indigo-500">Regístrate</h1>
+      <Title>Registrate</Title>
 
       <form action="" className="flex flex-col gap-7 mt-5 w-full" onSubmit={handleSubmit}>
 
-        <div className="flex flex-col gap-2 ">
-          <label htmlFor="name">Nombre:</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            autoComplete="name"
-            className="border border-slate-500 p-2 rounded placeholder:text-slate-500 focus:border-indigo-500 focus:outline-indigo-500 focus:outline-1"
-            placeholder="Ingresa tu nombre"
-            value={nombre}
-            onChange={(e) => setNombre(e.target.value)}
-            required
-          />
-        </div>
+        <Input
+          label="Nombre:"
+          type="text"
+          placeholder="Ingresa tu nombre"
+          value={nombre}
+          onChange={(e) => setNombre(e.target.value)}
+          name="name"
+          autoComplete="name"
+          required
+        />
 
-        <div className="flex flex-col gap-2 ">
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            autoComplete="email"
-            className="border border-slate-500 p-2 rounded placeholder:text-slate-500 focus:border-indigo-500 focus:outline-indigo-500 focus:outline-1"
-            placeholder="Ingresa tu email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
+        <Input
+          label="Email:"
+          type="email"
+          placeholder="Ingresa tu email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          name="email"
+          autoComplete="email"
+        />
 
-        <div className="flex flex-col gap-2 ">
-          <label htmlFor="password">Contraseña:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            autoComplete="password"
-            className="border border-slate-500 p-2 rounded placeholder:text-slate-500 focus:border-indigo-500 focus:outline-indigo-500 focus:outline-1"
-            placeholder="Ingresa tu contraseña"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            minLength={6}
-          />
-        </div>
+        <Input
+          label="Contraseña:"
+          type="password"
+          placeholder="Ingresa tu contraseña"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          minLength={6}
+          name="password"
+          autoComplete="password"
+        />
 
-        <div className="flex flex-col gap-2 ">
-          <label htmlFor="r-password">Repite tu contraseña:</label>
-          <input
-            type="password"
-            id="r-password"
-            name="r-password"
-            autoComplete="r-password"
-            className="border border-slate-500 p-2 rounded placeholder:text-slate-500 focus:border-indigo-500 focus:outline-indigo-500 focus:outline-1"
-            placeholder="Repite tu contraseña"
-            value={rPassword}
-            onChange={(e) => setRPassword(e.target.value)}
-            required
-            minLength={6}
-          />
-        </div>
+        <Input
+          label="Repite tu contraseña:"
+          type="password"
+          placeholder="Repite tu contraseña"
+          value={rPassword}
+          onChange={(e) => setRPassword(e.target.value)}
+          required
+          minLength={6}
+          name="repeat-password"
+          autoComplete="password"
+        />
 
-        <button
-          type="submit"
-          className="bg-indigo-500 text-white p-2 rounded text-lg font-bold cursor-pointer hover:bg-indigo-600 mt-2"
-        >
-          Enviar
-        </button>
+        <Button type="submit">Enviar</Button>
       </form>
 
       <div className="flex flex-col items-center mt-5 gap-3 text-sm">

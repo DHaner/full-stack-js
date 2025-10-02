@@ -3,6 +3,7 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import veterinarioService from '../services/veterinariosService';
 import IconExclamation from '../components/icons/IconExclamation';
 import Loading from '../components/Loading';
+import Input from '../components/ui/Input';
 export default function NewPassword() {
   const navigate = useNavigate();
   const [newPassword, setNewPassword] = useState('');
@@ -58,44 +59,31 @@ export default function NewPassword() {
           <>
             <p className="text-slate-300">Asegúrate de elegir una contraseña segura que puedas recordar fácilmente</p>
             <form onSubmit={handleSubmit} className="flex flex-col w-full gap-5 mt-5">
-              <div className="flex flex-col gap-2">
-                <label htmlFor="send-email">Password:</label>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  className="border border-slate-500 p-2 rounded placeholder:text-slate-500 focus:border-indigo-500 focus:outline-indigo-500 focus:outline-1"
-                  placeholder="Ingresa tu contraseña"
-                  autoComplete="password"
-                  minLength={6}
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  required
-                />
-              </div>
+              <Input
+                label="Password:"
+                type="password"
+                placeholder="Ingresa tu contraseña"
+                name="new-password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                autoComplete='password'
+                minLength={6}
+                required
+              />
 
-              <div className="flex flex-col gap-2">
-                <label htmlFor="confirm-password">Confirm Password:</label>
-                <input
-                  type="password"
-                  id="confirm-password"
-                  name="confirm-password"
-                  className="border border-slate-500 p-2 rounded placeholder:text-slate-500 focus:border-indigo-500 focus:outline-indigo-500 focus:outline-1"
-                  placeholder="Confirma tu contraseña"
-                  autoComplete="password"
-                  minLength={6}
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="bg-indigo-500 text-white p-2 rounded text-lg font-bold cursor-pointer hover:bg-indigo-600"
-              >
-                Enviar
-              </button>
+              <Input
+                label="Confirm Password:"
+                type="password"
+                placeholder="Confirma tu contraseña"
+                name="confirm-password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                autoComplete='password'
+                minLength={6}
+                required
+              />
+              
+              <Button type="submit">Enviar</Button>
 
             </form>
           </>) : (
