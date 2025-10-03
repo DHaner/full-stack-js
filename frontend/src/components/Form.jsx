@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "./ui/Button";
 import Input from "./ui/Input";
 import Title from "./ui/Title";
+import { usePatients } from "../hooks/usePatients";
 
 export default function Form() {
+    const { addPatient, pacienteEditar } = usePatients();
+    const [pacientID, setPacientID] = useState(null);
     const [formData, setFormData] = useState({
         name: "",
         owner: "",
@@ -12,15 +15,55 @@ export default function Form() {
         symptoms: ""
     });
 
-    const handleSubmit = (e) => {
+    useEffect(() => {
+        if (pacienteEditar) {
+            setPacientID(pacienteEditar._id);
+            
+            // Convert ISO date to yyyy-MM-dd format for date input
+            const formatDateForInput = (dateString) => {
+                const date = new Date(dateString);
+                return date.toISOString().split('T')[0];
+            };
+            
+            setFormData({
+                name: pacienteEditar.nombre,
+                owner: pacienteEditar.propietario,
+                email: pacienteEditar.email,
+                date: formatDateForInput(pacienteEditar.fecha),
+                symptoms: pacienteEditar.sintomas
+            });
+        }
+    }, [pacienteEditar]);
+
+    async function handleSubmit(e) {
         e.preventDefault();
-        if(Object.values(formData).includes("")) {
+        if (Object.values(formData).includes("")) {
             alert("Todos los campos son obligatorios");
             return;
         }
-        console.log("Formulario enviado:", formData);
-        // Handle form submission
+        const newPatient = {
+            nombre: formData.name,
+            propietario: formData.owner,
+            email: formData.email,
+            fecha: formData.date,
+            sintomas: formData.symptoms,
+            id: pacientID
+        }
+        await addPatient(newPatient);
+        alert("Paciente agregado correctamente");
+        resetForm();
     };
+
+    function resetForm() {
+        setPacientID(null);
+        setFormData({
+            name: "",
+            owner: "",
+            email: "",
+            date: "",
+            symptoms: ""
+        });
+    }
 
     return (
         <div className="w-full">
@@ -78,7 +121,9 @@ export default function Form() {
                     value={formData.symptoms}
                     onChange={(e) => setFormData({ ...formData, symptoms: e.target.value })}
                 />
-                <Button type="submit">Agregar Paciente</Button>
+                <Button type="submit">
+                    {pacientID ? "Guardar Cambios" : "Agregar Paciente"}
+                </Button>
             </form>
         </div>
     )

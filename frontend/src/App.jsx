@@ -7,25 +7,33 @@ import NewPassword from './pages/NewPassword'
 import AdminPage from './pages/admin/AdminPage'
 import AdminLayout from './layout/AdminLayout'
 import RootRedirect from './components/RootRedirect'
+import { AuthProvider } from './context/AuthProvider'
+import { PatientsProvider } from './context/PatientsProvider'
 
 function App() {
 
   return (
-    <BrowserRouter>
-        <Routes>
-          <Route path='/' element={<AuthLayout />} >
-            <Route index element={<RootRedirect />} />
-            <Route path='login' element={<Login />} />
-            <Route path='register' element={<Register />} />
-            <Route path='forgot-password/:token' element={<NewPassword />} />
-            <Route path='confirm/:token' element={<ConfirmAccount />} />
-          </Route>
+    <AuthProvider>
+      <PatientsProvider>
+        <BrowserRouter>
+          <Routes>
 
-          <Route path='/admin' element={<AdminLayout />}>
-            <Route index element={<AdminPage />} />
-          </Route>
-        </Routes>
-    </BrowserRouter>
+            <Route path='/' element={<AuthLayout />} >
+              <Route index element={<RootRedirect />} />
+              <Route path='login' element={<Login />} />
+              <Route path='register' element={<Register />} />
+              <Route path='forgot-password/:token' element={<NewPassword />} />
+              <Route path='confirm/:token' element={<ConfirmAccount />} />
+            </Route>
+
+            <Route path='/admin' element={<AdminLayout />}>
+              <Route index element={<AdminPage />} />
+            </Route>
+
+          </Routes>
+        </BrowserRouter>
+      </PatientsProvider>
+    </AuthProvider>
   )
 }
 
