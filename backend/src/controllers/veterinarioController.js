@@ -160,3 +160,55 @@ export async function nuevoPassword(req, res) {
         return res.status(500).json({ msg: 'Error al actualizar la contraseña' });
     }
 }
+
+export async function actualizarPerfil(req, res) {
+    const veterinario = await Veterinario.findById(req.params.id);
+    if (!veterinario) {
+        const error = new Error('Veterinario no encontrado');
+        return res.status(404).json({ msg: error.message });
+    }
+
+    // Actualizar los campos del perfil
+    veterinario.nombre = req.body.nombre || veterinario.nombre;
+    veterinario.email = req.body.email || veterinario.email;
+    veterinario.telefono = req.body.telefono || veterinario.telefono;
+    veterinario.web = req.body.web || veterinario.web;
+
+    try {
+        await veterinario.save();
+        res.json({ msg: 'Perfil actualizado correctamente' });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ msg: 'Error al actualizar perfil' });
+    }
+}
+
+export async function actualizarPassword(req, res) {
+    //Leer datos
+    const { id } = req.veterinario;
+    const { currentPassword, newPassword } = req.body;
+    
+    //Comprobar que el veterinario existe
+    const veterinario = await Veterinario.findById(id);
+    if (!veterinario) {
+        const error = new Error('Veterinario no encontrado');
+        return res.status(404).json({ msg: error.message });
+    }
+
+    //Comprobar su password actual
+    if (await veterinario.comprobarPassword(currentPassword)) {
+        //Almacenar el nuevo password
+        veterinario.password = newPassword;
+        try {
+            await veterinario.save();
+            res.json({ msg: 'Password actualizado correctamente' });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ msg: 'Error al actualizar password' });
+        }
+
+    } else {
+        const error = new Error('El password actual es incorrecto');
+        return res.status(403).json({ msg: error.message });
+    }
+}

@@ -9,6 +9,8 @@ import AdminLayout from './layout/AdminLayout'
 import RootRedirect from './components/RootRedirect'
 import { AuthProvider } from './context/AuthProvider'
 import { PatientsProvider } from './context/PatientsProvider'
+import Profile from './pages/profile/Profile'
+import ChangePassword from './pages/profile/ChangePassword'
 
 function App() {
 
@@ -28,6 +30,8 @@ function App() {
 
             <Route path='/admin' element={<AdminLayout />}>
               <Route index element={<AdminPage />} />
+              <Route path='profile' element={<Profile />} />
+              <Route path='change-password' element={<ChangePassword />} />
             </Route>
 
           </Routes>

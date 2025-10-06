@@ -6,7 +6,9 @@ import {
     login, 
     olvidePassword,
     comprobarToken,
-    nuevoPassword
+    nuevoPassword,
+    actualizarPerfil,
+    actualizarPassword
 } from '../controllers/veterinarioController.js';
 import authMiddleware from '../middleware/authMiddleware.js';
 
@@ -26,4 +28,6 @@ router.route("/olvide-password/:token")
 
 //Rutas privadas
 router.get("/perfil", authMiddleware, perfil);
+router.put("/perfil/:id", authMiddleware, actualizarPerfil);
+router.put("/actualizar-password", authMiddleware, actualizarPassword);
 export default router;

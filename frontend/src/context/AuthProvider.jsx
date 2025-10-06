@@ -31,8 +31,16 @@ export function AuthProvider({ children }) {
         localStorage.removeItem("token");
     };
 
+    async function updatePerfil(updatedData) {
+        await veterinarioService.actualizarPerfil(updatedData);
+        setAuth(updatedData);
+    }
+    async function updatePassword(passwordData) {
+        return await veterinarioService.actualizarPassword(passwordData);
+    }
+
     return (
-        <AuthContext.Provider value={{ auth, setAuth, loading, cerrarSesion }}>
+        <AuthContext.Provider value={{ auth, setAuth, loading, cerrarSesion, updatePerfil, updatePassword }}>
             {children}
         </AuthContext.Provider>
     )

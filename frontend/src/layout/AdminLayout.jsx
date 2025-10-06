@@ -20,8 +20,8 @@ export default function AdminLayout() {
             <header className="bg-slate-800 py-8 px-24 text-white flex justify-between items-center gap-4 flex-col md:flex-row">
                 <h1 className="text-4xl font-black text-slate-200 text-center">Panel de Administración</h1>
                 <nav className="flex gap-4 items-center">
-                    <Link to="/admin/dashboard">Dashboard</Link>
-                    <Link to="/admin/perfiles">Perfiles</Link>
+                    <Link to="/admin">Pacientes</Link>
+                    <Link to="/admin/profile">Perfil</Link>
                     <button onClick={cerrarSesion}
                         className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-nowrap">
                         Cerrar Sesión
