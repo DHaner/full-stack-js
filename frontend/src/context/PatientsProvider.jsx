@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import patientsService from "../services/PatientsService";
+import patientsService from "../services/patientsService";
 import useAuth from "../hooks/useAuth";
 
 const PatientsContext = createContext();
