@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import conectarDB from './src/config/db.js';
 import veterinarioRouter from './src/routes/veterinarioRouter.js';
-import pacienteRouter from './src/routes/PacienteRouter.js';
+import pacienteRouter from './src/routes/pacienteRouter.js';
 
 
 dotenv.config();
